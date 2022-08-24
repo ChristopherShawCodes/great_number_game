@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Number Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/add_style.css') }}">
+</head>
+<body>
+    <div class="main">
+        <h1 id="title" class="bg-dark text-warning text-center"> Welcome To The Scary Number Game</h1>
+        <h4>Can you guess the number?</h4>
+        <h5>1-100</h5>
+        <form action="guess" class="bg-dark text-warning text-center" method="post">
+            <div class="form-group">
+                <label for="guess" id="take">You're lost in the woods, and you don't know how you got there. Guess a number and choose your fate. Proceed at your own risk.</label>
+                <input type="text" name="guess" id="guess" class="form-control" autocomplete="off">
+                <p>Take a guess if you dare </p>
+                {{session['guess']}}
+            </div>
+            <input type="submit" id="input" value="Guess" class="btn btn-outline-warning">
+            <a href="/reset" class="btn btn-outline-warning">Reset</a>
+        </form>
+        {% if 'guess' in session: %}
+            {% if session['guess'] == session['num'] %}
+            <div class="card bg-success" id="card">
+                <h2>Luck? Perhaps. Well played.</h2>
+                <a href="/reset" class="btn btn-primary">Want to PLAY again ?</a>
+            </div>
+            {% elif session['guess'] < session['num'] %}
+            <div class="card bg-warning" id="card">
+                <h2>Too Low</h2>
+                <p>A stranger sees you walking down the street. Salvation? Perhaps.Try again.This time think bigger.</p>
+            </div>
+        {% else  %}
+        <div class="card bg-warning" id="card">
+            <h2>Too High</h2>
+            <p>A local police officer sees you in the woods. You run in panic but why? Try a lower number</p>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+</html>
